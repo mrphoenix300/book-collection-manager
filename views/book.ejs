@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Details</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #3f37c9;
+      --accent-color: #4895ef;
+      --light-color: #f8f9fa;
+      --dark-color: #212529;
+      --success-color: #4cc9f0;
+      --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      --card-radius: 16px;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e7f1 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 2rem 1rem;
+    }
+    
+    .header-container {
+      max-width: 1000px;
+      margin: 0 auto 2rem;
+      text-align: center;
+    }
+    
+    .book-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .book-header {
+      background: linear-gradient(120deg, var(--primary-color), var(--accent-color));
+      color: white;
+      padding: 3rem 2rem;
+      position: relative;
+      text-align: center;
+    }
+    
+    .book-header h1 {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      font-size: 2.5rem;
+    }
+    
+    .book-header .author {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      margin-bottom: 0;
+    }
+    
+    .book-header::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 40px;
+      background: white;
+      border-radius: 50%;
+      z-index: 2;
+    }
+    
+    .book-header::before {
+      content: '';
+      position: absolute;
+      bottom: -30px;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background: white;
+      border-radius: var(--card-radius) var(--card-radius) 0 0;
+    }
+    
+    .book-body {
+      padding: 3rem 2rem;
+      position: relative;
+    }
+    
+    .book-cover-container {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+    
+    .book-cover {
+      max-height: 400px;
+      border-radius: 12px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
+      object-fit: contain;
+    }
+    
+    .book-cover:hover {
+      transform: scale(1.02);
+    }
+    
+    .book-details {
+      margin-bottom: 2rem;
+    }
+    
+    .detail-card {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .detail-card h5 {
+      font-weight: 600;
+      color: var(--secondary-color);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .detail-card h5 i {
+      width: 30px;
+      height: 30px;
+      background: rgba(67, 97, 238, 0.1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      color: var(--primary-color);
+    }
+    
+    .detail-card p {
+      font-size: 1.1rem;
+      margin-bottom: 0;
+      color: #4a5568;
+      line-height: 1.6;
+    }
+    
+    .rating-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .rating-stars {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .rating-stars span {
+      font-size: 2rem;
+      color: #ffd43b;
+    }
+    
+    .rating-text {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--secondary-color);
+    }
+    
+    .section-divider {
+      height: 2px;
+      background: linear-gradient(to right, transparent, #e2e8f0, transparent);
+      margin: 2.5rem 0;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .btn-back {
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-weight: 600;
+      transition: all 0.3s;
+      color: #4a5568;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-back:hover {
+      background: #f8f9fa;
+      border-color: #cbd5e0;
+      transform: translateY(-2px);
+    }
+    
+    .btn-edit {
+      background: var(--primary-color);
+      border: none;
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-weight: 600;
+      transition: all 0.3s;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-edit:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(67, 97, 238, 0.3);
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 6px 15px;
+      border-radius: 20px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    
+    .status-reading {
+      background: rgba(76, 201, 240, 0.2);
+      color: #3ab0d8;
+    }
+    
+    .status-completed {
+      background: rgba(72, 187, 120, 0.2);
+      color: #48bb78;
+    }
+    
+    .status-planned {
+      background: rgba(246, 173, 85, 0.2);
+      color: #f6ad55;
+    }
+    
+    @media (max-width: 768px) {
+      .book-header {
+        padding: 2rem 1.5rem;
+      }
+      
+      .book-header h1 {
+        font-size: 2rem;
+      }
+      
+      .book-body {
+        padding: 2.5rem 1.5rem;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      .action-buttons .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .rating-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header-container">
+    <h1 class="fw-bold" style="color: var(--secondary-color);">Book Collection</h1>
+    <p class="text-muted">Your personal reading library</p>
+  </div>
+
+  <div class="book-container">
+    <div class="book-header">
+      <% if (book.title) {%>
+      <h1><%= book.title %></h1>
+      <% } %>
+      <% if (book.author) {%>
+      <p class="author">by <%= book.author %></p>
+      <% } %>
+    </div>
+    
+    <div class="book-body">
+      <div class="book-cover-container">
+        <% if (book.covermedium) {%>
+        <img src="<%= book.covermedium %>" 
+             class="img-fluid book-cover"
+             alt="Cover of <%= book.title %>">
+        <% } %>
+      </div>
+      
+      <div class="rating-container">
+        <% if (book.rating) {%>
+        <div class="rating-stars">
+          <% const stars = book.rating; %>
+          <% for (let i = 0; i < 5; i++) { %>
+              <% if (i < stars) { %>
+                <span class="active">&#9733;</span>
+              <% } else { %>
+                <span class="inactive">&#9733;</span>
+              <% } %>
+            <% } %>
+        </div>
+        <div class="rating-text"><%= stars %> out of 5 stars</div>
+        <% } %>
+      </div>
+      
+      <div class="book-details">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="detail-card">
+              <% if (book.dateread) {%>
+              <h5><i class="fas fa-calendar-day"></i> Read On</h5>
+              <p><%= book.dateread %></p>
+              <% } %>
+            </div>
+            
+            <div class="detail-card">
+              <% if (book.status) {%>
+              <h5><i class="fas fa-bookmark"></i> Status</h5>
+              <span class="status-badge status-completed"><%= book.status %></span>
+              <% } %>
+            </div>
+          </div>
+          
+          <% if (book.currentpage) {%>
+          <div class="col-md-6">
+            <div class="detail-card">
+              <h5><i class="fas fa-book-reader"></i> Progress</h5>
+              <p>Page <%= book.currentpage %> of 328</p>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+      
+      <div class="section-divider"></div>
+      
+      <div class="detail-card">
+        <% if (book.review) {%>
+        <h5><i class="fas fa-comment"></i> Review</h5>
+        <pre><%= book.review %></pre>
+        <% } %>
+      </div>
+      
+      <div class="detail-card">
+        <% if (book.notes) {%>
+        <h5><i class="fas fa-sticky-note"></i> Personal Notes</h5>
+        <pre><%= book.notes %></pre>
+        <% } %>
+      </div>
+      
+      <div class="action-buttons">
+        <a href="/" class="btn btn-back">
+          <i class="fas fa-arrow-left"></i> Back to Book List
+        </a>
+        <a href="/edit/<%= book.id %>" class="btn btn-edit">
+          <i class="fas fa-edit"></i> Edit Book Details
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Book cover hover effect
+    const bookCover = document.querySelector('.book-cover');
+    if (bookCover) {
+      bookCover.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.02)';
+        this.style.boxShadow = '0 20px 40px rgba(0,0,0,0.2)';
+      });
+      
+      bookCover.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+        this.style.boxShadow = '0 15px 30px rgba(0,0,0,0.15)';
+      });
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+</body>
+</html>

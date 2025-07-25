@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Note</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #3f37c9;
+      --accent-color: #4895ef;
+      --light-color: #f8f9fa;
+      --dark-color: #212529;
+      --success-color: #4cc9f0;
+      --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      --form-radius: 16px;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e7f1 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 2rem 1rem;
+    }
+    
+    .header-container {
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      text-align: center;
+    }
+    
+    .form-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: var(--form-radius);
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .form-header {
+      background: linear-gradient(120deg, var(--primary-color), var(--accent-color));
+      color: white;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+    
+    .form-header h2 {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    
+    .form-header p {
+      opacity: 0.9;
+      margin-bottom: 0;
+      font-size: 1.1rem;
+    }
+    
+    .form-header::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 40px;
+      background: white;
+      border-radius: 50%;
+      z-index: 2;
+    }
+    
+    .form-header::before {
+      content: '';
+      position: absolute;
+      bottom: -30px;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background: white;
+      border-radius: var(--form-radius) var(--form-radius) 0 0;
+    }
+    
+    .form-body {
+      padding: 3rem 2rem 2rem;
+      position: relative;
+    }
+    
+    .book-preview {
+      display: flex;
+      align-items: center;
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .book-preview img {
+      width: 80px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      margin-right: 20px;
+    }
+    
+    .book-preview-info h4 {
+      font-weight: 700;
+      color: var(--secondary-color);
+      margin-bottom: 0.3rem;
+    }
+    
+    .book-preview-info p {
+      color: #6c757d;
+      margin-bottom: 0.5rem;
+    }
+    
+    .input-group-icon {
+      position: relative;
+      margin-bottom: 1.8rem;
+    }
+    
+    .form-label {
+      font-weight: 500;
+      color: #4a5568;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    
+    .form-control, .form-select {
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      transition: all 0.3s;
+      font-size: 1rem;
+      width: 100%;
+    }
+    
+    textarea.form-control {
+      min-height: 200px;
+      padding: 1.5rem;
+    }
+    
+    .form-control:focus, .form-select:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
+    }
+    
+    .btn-primary {
+      background: var(--primary-color);
+      border: none;
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(67, 97, 238, 0.3);
+      background: var(--secondary-color);
+    }
+    
+    .btn-outline-secondary {
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-weight: 600;
+      transition: all 0.3s;
+      color: #4a5568;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-outline-secondary:hover {
+      background: #f8f9fa;
+      border-color: #cbd5e0;
+      transform: translateY(-2px);
+    }
+    
+    .form-footer {
+      display: flex;
+      gap: 15px;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .note-tips {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 2rem;
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .note-tips h5 {
+      font-weight: 600;
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .note-tips ul {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    .note-tips li {
+      margin-bottom: 0.5rem;
+      color: #4a5568;
+    }
+    
+    @media (max-width: 768px) {
+      .form-header {
+        padding: 1.8rem 1.5rem;
+      }
+      
+      .form-body {
+        padding: 2.5rem 1.5rem 1.5rem;
+      }
+      
+      .form-footer {
+        flex-direction: column;
+      }
+      
+      .form-footer .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .book-preview {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .book-preview img {
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header-container">
+    <h1 class="fw-bold" style="color: var(--secondary-color);">Book Collection</h1>
+    <p class="text-muted">Add notes to your books</p>
+  </div>
+
+  <div class="form-container">
+    <div class="form-header">
+      <h2><i class="fas fa-sticky-note"></i>Add Note to Book</h2>
+      <p>Capture your thoughts, quotes, and reflections</p>
+    </div>
+    
+    <div class="form-body">
+      <!-- Book Preview -->
+      <div class="book-preview">
+        <% if (book.covermedium) {%>
+        <img src="<%= book.covermedium %>" alt="Book Cover">
+        <% } %>
+        <div class="book-preview-info">
+          <% if (book.title) {%>
+          <h4><%= book.title %></h4>
+          <% } %>
+          <% if (book.author) {%>
+          <p><%= book.author %></p>
+          <% } %>
+          <div class="rating-stars">
+            <% if (book.rating) {%>
+            <% const stars = book.rating; %>
+            <% for (let i = 0; i < 5; i++) { %>
+                <% if (i < stars) { %>
+                  <span class="active">&#9733;</span>
+                <% } else { %>
+                  <span class="inactive">&#9733;</span>
+                <% } %>
+            <% } %>
+          </div>
+          <% } %>
+        </div>
+      </div>
+      
+      <form action="/book/<%= book.id %>/notes/add" method="POST" class="needs-validation" novalidate>
+        <div class="input-group-icon">
+          <label for="note" class="form-label">Your Note <span class="text-danger">*</span></label>
+          <textarea class="form-control" id="note" name="note" rows="8" placeholder="Type your note here..." required><%= book.notes %></textarea>
+          <div class="invalid-feedback">
+            Please enter your note
+          </div>
+        </div>
+        
+        <div class="note-tips">
+          <h5><i class="fas fa-lightbulb"></i> Note Writing Tips</h5>
+          <ul>
+            <li>Record meaningful quotes or passages</li>
+            <li>Jot down your personal reflections</li>
+            <li>Note connections to other books or ideas</li>
+            <li>Capture questions that arise while reading</li>
+            <li>Document how the book makes you feel</li>
+          </ul>
+        </div>
+        
+        <div class="form-footer">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-plus-circle me-1"></i> Add Note
+          </button>
+          <% if (book.id) {%>
+          <a href="/book/<%= book.id %>" class="btn btn-outline-secondary">
+            <i class="fas fa-times me-1"></i> Cancel
+          </a>
+          <% } %>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Form validation
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.querySelector('form.needs-validation');
+      
+      form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        
+        form.classList.add('was-validated');
+      }, false);
+      
+      // Textarea auto-expand
+      const textarea = document.getElementById('note');
+      textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+      });
+      
+      // Set initial height
+      textarea.style.height = 'auto';
+      textarea.style.height = (textarea.scrollHeight) + 'px';
+    });
+  </script>
+</body>
+</html>
