@@ -1,4 +1,4 @@
-# Book Collection Manager
+# 📚 Book Collection Manager
 
 ## Overview
 
