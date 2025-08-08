@@ -5,13 +5,14 @@ CREATE TABLE books (
   title VARCHAR(255) NOT NULL,
   author VARCHAR(255),
   isbn VARCHAR(20),
+  coversmall TEXT,
   covermedium TEXT,
   rating INTEGER,
   review TEXT,
   notes TEXT,
   status VARCHAR(50),
   currentpage INTEGER,
-  dateread DATE,
+  dateread DATE
 );
 
 -- Example book data
