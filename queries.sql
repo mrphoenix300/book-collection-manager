@@ -11,7 +11,7 @@ CREATE TABLE books (
   review TEXT,
   notes TEXT,
   status VARCHAR(50),
-  currentpage INTEGER,
+  currentpage VARCHAR(5),
   dateread VARCHAR(10)
 );
 
