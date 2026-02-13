@@ -12,7 +12,7 @@ CREATE TABLE books (
   notes TEXT,
   status VARCHAR(50),
   currentpage INTEGER,
-  dateread DATE
+  dateread VARCHAR(10)
 );
 
 -- Example book data
