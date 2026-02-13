@@ -7,7 +7,7 @@ CREATE TABLE books (
   isbn VARCHAR(20),
   coversmall TEXT,
   covermedium TEXT,
-  rating INTEGER,
+  rating VARCHAR(1),
   review TEXT,
   notes TEXT,
   status VARCHAR(50),
