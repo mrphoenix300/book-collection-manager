@@ -142,12 +142,34 @@ app.get("/sort", async (req, res) => {
 });
 
 app.post("/add-book", async (req, res) => {
-  const isbn = req.body.isbn;
-  const response = await axios.get(
-    `https://openlibrary.org/search.json?isbn=${isbn}&fields=title,author_name&limit=1`,
-  );
-  const result = response.data;
-  const title = result.docs[0].title;
+  const rawIsbn = req.body.isbn;
+  if (typeof rawIsbn !== "string") {
+    return res.status(400).send("A valid ISBN is required.");
+  }
+
+  // Accept ISBN-10/ISBN-13 with optional hyphens or spaces.
+  const isbn = rawIsbn.replace(/[\\s-]/g, "");
+  if (!/^(?:[0-9]{9}[0-9Xx]|[0-9]{13})$/.test(isbn)) {
+    return res.status(400).send("Invalid ISBN format.");
+  }
+
+  let bookInfo;
+  try {
+    const response = await axios.get("https://openlibrary.org/search.json", {
+      params: { isbn, fields: "title,author_name", limit: 1 },
+      timeout: 10000,
+    });
+    bookInfo = response.data?.docs?.[0];
+  } catch (error) {
+    console.error("Open Library lookup failed:", error.message);
+    return res.status(502).send("Unable to retrieve book information.");
+  }
+
+  if (!bookInfo || typeof bookInfo.title !== "string") {
+    return res.status(404).send("No book found for this ISBN.");
+  }
+
+  const title = bookInfo.title;
   const rating =
     typeof req.body.rating === "undefined" ? null : parseInt(req.body.rating);
   const review =
@@ -156,7 +178,9 @@ app.post("/add-book", async (req, res) => {
     typeof req.body.status === "undefined" ? null : req.body.status;
   const dateread =
     typeof req.body.dateread === "undefined" ? null : req.body.dateread;
-  const author = result.docs[0].author_name[0];
+  const author = Array.isArray(bookInfo.author_name)
+    ? bookInfo.author_name[0] ?? null
+    : null;
   const currentpage = isNaN(parseInt(req.body.currentPage))
     ? null
     : parseInt(req.body.currentPage);
