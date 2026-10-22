@@ -43,7 +43,7 @@ The application is built with Node.js, Express.js, and PostgreSQL, with a respon
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/book-collection-manager.git
+   git clone https://github.com/mrphoenix300/book-collection-manager.git
    cd book-collection-manager
    ```
 
